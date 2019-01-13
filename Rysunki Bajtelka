@@ -1,86 +1,75 @@
-#include <iostream>
-#include <vector>
-#include <math.h>
-#include <iomanip>
- 
-using namespace std;
- 
-struct point
-{
-	long long x;
-	long long y;
+#include < iostream > #include < vector > #include < math.h > #include < iomanip >
+
+  using namespace std;
+
+struct point {
+  long long x;
+  long long y;
 };
- 
-class att
-{
-	public:
-		vector<point> shape1;
-		vector<point> shape2;
+
+class att {
+  public:
+    vector < point > shape1;
+  vector < point > shape2;
 };
- 
- 
-vector <att> attemps;
- 
- 
-bool fc(vector<point>&v, point p)
-{
-	if (v.size() <2)return true;
-	else if ((v[0].x == p.x) && v[0].y == p.y) return false;
-	else return true;	
+
+vector < att > attemps;
+
+bool fc(vector < point > & v, point p) {
+  if (v.size() < 2) return true;
+  else if ((v[0].x == p.x) && v[0].y == p.y) return false;
+  else return true;
 }
- 
- 
- 
-double calcarea(vector<point>v, int n){
-	
- 
-	double area = 0;;
-	int j = n - 1;
-	for (int i = 0; i < n; i++)
-	{
-		area += round((v[j].x + v[i].x) * (v[j].y - v[i].y));
-		j = i;  
-	}
-	return abs(area / 2);
+
+double calcarea(vector < point > v, int n) {
+
+  double area = 0;;
+  int j = n - 1;
+  for (int i = 0; i < n; i++) {
+    area += round((v[j].x + v[i].x) * (v[j].y - v[i].y));
+    j = i;
+  }
+  return abs(area / 2);
 }
- 
+
 int bw = 10;
 int gw = 6;
- 
-int main()
-{
- 
-	int n = 0; 
-	cin >> n;	
-	
-	for (int i = 0; i < n; i++)
-	{
-		att * attempt = new att();
-		for (point p = { 0, 0 }; fc(attempt->shape1, p);)
-		{
-			cin >> p.x;
-			cin >> p.y;
-			attempt->shape1.push_back(p);			
-		}
- 
-		for (point p = { 0, 0 }; fc(attempt->shape2, p);)
-		{
-			cin >> p.x;
-			cin >> p.y;
-			attempt->shape2.push_back(p);
-		}
-		attemps.push_back(*attempt);				
-	}
-	
-	for (int i = 0; i < attemps.size(); i++)
-	{		
-		double ar1 = calcarea(attemps[i].shape1, attemps[i].shape1.size());
-		double ar2 = calcarea(attemps[i].shape2, attemps[i].shape2.size());
-		
-			if (ar1 > ar2)cout << std::fixed << setprecision(0) << round(((ar1 - ar2) * 6) + ar2 * 10) << endl;
-			if (ar2 > ar1)cout << std::fixed << setprecision(0) <<round(((ar2 - ar1) * 6) + ar1 * 10) << endl;
- 
-	}
-	
-	return 0;
-} 
+
+int main() {
+
+  int n = 0;
+  cin >> n;
+
+  for (int i = 0; i < n; i++) {
+    att * attempt = new att();
+    for (point p = {
+        0,
+        0
+      }; fc(attempt - > shape1, p);) {
+      cin >> p.x;
+      cin >> p.y;
+      attempt - > shape1.push_back(p);
+    }
+
+    for (point p = {
+        0,
+        0
+      }; fc(attempt - > shape2, p);) {
+      cin >> p.x;
+      cin >> p.y;
+      attempt - > shape2.push_back(p);
+    }
+    attemps.push_back( * attempt);
+  }
+
+  for (int i = 0; i < attemps.size(); i++) {
+    double ar1 = calcarea(attemps[i].shape1, attemps[i].shape1.size());
+    double ar2 = calcarea(attemps[i].shape2, attemps[i].shape2.size());
+
+    if (ar1 > ar2) cout << std::fixed << setprecision(0) << round(((ar1 - ar2) * 6) + ar2 * 10) << endl;
+    if (ar2 > ar1) cout << std::fixed << setprecision(0) << round(((ar2 - ar1) * 6) + ar1 * 10) << endl;
+
+  }
+
+  return 0;
+}
