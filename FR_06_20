@@ -1,0 +1,129 @@
+#include <algorithm>
+#include <iostream>
+#include <vector>
+ 
+using namespace std;
+ 
+int ** tab;
+short int n, s, ik;
+short int * kol;
+ 
+struct point {
+	char x, y;
+};
+class result
+{
+public: short sx, sy, x, y;
+		result(char x, char y, char sx, char sy)
+		{
+			this->x = x;
+			this->y = y;
+			this->sx = sx;
+			this->sy = sy;
+		}
+ 
+ 
+		inline bool operator==(const result& b) {
+			char c = 0;
+			if (this->x == b.x)c++;
+			if (this->y == b.y)c++;
+			if (this->sx == b.sx)c++;
+			if (this->sy == b.sy)c++;
+			if (c == 4)return true;
+			else return false;
+		}
+ 
+};
+ 
+vector < point > startp;
+vector < point > path;
+ 
+vector < result > results;
+ 
+point mov[4] = {
+  0,  1,
+  0, -1,
+  1,  0,
+  -1,  0
+};
+ 
+void find_color(char x, char y, int c, int id) {
+	if (c < ik) {
+		for (char j = 0;
+			(j < 4); j++) {
+			if (((x + mov[j].x >= 0) && (x + mov[j].x < n)) &&
+				((y + mov[j].y >= 0) && (y + mov[j].y < n))) {
+				if ((tab[x + mov[j].x][y + mov[j].y] == kol[c])) {
+					find_color(x + mov[j].x, y + mov[j].y, c + 1, id);
+				}
+			}
+		}
+	}
+	else {
+		result r = result(x, y, startp[id].x, startp[id].y);
+		if (std::find(results.begin(), results.end(), r) == results.end()) {
+			results.push_back(r);
+		}
+ 
+	}
+}
+ 
+void fn() {
+	for (char y = 0; y < n; y++)
+		for (char x = 0; x < n; x++)
+			if (tab[x][y] == s) {
+				point p = { x, y };
+				startp.push_back(p);
+			} 
+}
+ 
+ 
+bool res_sort(result i, result j) {
+ 
+	if (i.sx == j.sx)
+	{
+		if (i.sy == j.sy)
+		{
+			if (i.x == j.x)
+			{
+				return i.y < j.y;
+			}
+			return i.x < j.x;
+		}
+		return i.sy < j.sy;
+	}
+	return i.sx < j.sx;
+ 
+}
+ 
+int main() {
+ 
+	cin >> n;
+	tab = new int *[n];
+	for (int i = 0; i < n; ++i)
+		tab[i] = new int[n];
+ 
+	for (int y = 0; y < n; y++) {
+		for (int x = 0; x < n; x++) {
+			cin >> tab[x][y];
+		}
+	}
+ 
+	cin >> s;
+	cin >> ik;
+	kol = new short int[ik];
+ 
+	for (char i = 0; i < ik; i++) cin >> kol[i];
+ 
+	fn();
+	for (char i = 0; i < startp.size(); i++) {
+		find_color(startp[i].x, startp[i].y, 0, i);
+	}
+ 
+	std::sort(results.begin(), results.end(), res_sort);
+	for (int i = 0; i < results.size(); i++)
+	{
+		cout << results[i].sx << " " << results[i].sy << " " << results[i].x << " " << results[i].y << endl;
+	}
+ 
+} 
